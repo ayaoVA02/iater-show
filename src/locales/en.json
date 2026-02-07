@@ -1,0 +1,221 @@
+{
+  "home": {
+    "iATER_trains": "iATER trains AI & IT talents in Laos",
+    "title": "About <br/><br/> iATER",
+    "intoduc_subtitle": "Introducing iATER",
+    "aboutMenuItems1": "Vision",
+    "aboutMenuItems2": "Mission",
+    "aboutMenuItems3": "Core Values",
+    "aboutMenuItems4": "Mission Statement",
+    "aboutMenuItems5": "Those involved",
+    "aboutMenuItems6": "Major history",
+    "aboutMenuItems7": "Institue Identity",
+    "project": "News",
+    "project_subtitle": "iATER does research",
+    "projectMenuItems1": "External Project",
+    "projectMenuItems2": "Internal Activities",
+    "projectMenuItems3": "Research Activities",
+    "program": "Program",
+    "program_subtitle": "iATER learning",
+    "programMenuItems1": "Plan",
+    "programMenuItems2": "iATER Course of study",
+    "programMenuItems3": "Research with external organizations",
+    "programMenuItems4": "Mission Statement"
+  },
+  "banner": {
+    "title": "Institute of Advanced  Technology Education & Research",
+    "description": "The era will come when anyone can use AI, even if they do not know the technology. [Bartali Gordon-Pharos AI /co-founder and CEO]"
+  },
+  "footer": {
+    "contact": "Contact",
+    "address": "Address"
+  },
+  "about": {
+    "vision": {
+      "1_p1": "The world is now entering an <strong> era of innovation led by artificial intelligence (AI). </strong>",
+      "1_p2": "In this wave of change, the ability to <strong>explore the future using cutting-edge IT technologies, utilize data innovatively</strong>, and <strong>think creatively in IT management</strong> are becoming more important.",
+      "1_p3": "Born in October 2020 for the future of Laos, iATER has a mission to explore the infinite possibilities of artificial intelligence and become a global leader in this field.",
+      "1_p4": "Along with big data, the Internet of Things (IoT), and smart sensors, AI is at the core of our research and education, fostering expert talents who will lead the Fourth Industrial Revolution.",
+      "1_p5": "Today, IT has become a necessity rather than an option in all fields, and artificial intelligence in particular will play the most pivotal role in shaping the future society."
+    },
+    "coreValues": {
+      "2_p1": "A Future with AI & Under the guidance of Korea's leading IT experts and faculty, we are supporting young people in Laos to acquire diverse technologies combined with AI and achieve creative and innovative results based on these technologies. Seeing young people using AI to find innovative solutions, we are confident that the future of Laos' IT and creative industries is very bright.",
+      "2_p2": "iATER is leading the way in expanding the reach of AI and IT education and creating an environment where anyone can easily access and learn AI using AI tools like ChatGPT. We are committed to ensuring that AI technology transcends mere research and converges with all industries, including IT, arts, education, and creative work, to become a driving force for sustainable development. Your continued interest and support will further illuminate our research journey, and together, we will contribute to illuminating Laos' bright future. We invite you to join us on this remarkable journey of AI.",
+      "content": {
+        "education": {
+          "title": "AI Professional Talent Development",
+          "subtitle": "AI and IT Education Programs",
+          "content": {
+            "heading": "iATER operates systematic education programs to cultivate global talent in AI and IT fields.",
+            "items": [
+              {
+                "title": "AI and Machine Learning Expert Course",
+                "description": "Education in core AI technologies including machine learning, deep learning, natural language processing (NLP), and computer vision"
+              },
+              {
+                "title": "Software Development and Programming Education",
+                "description": "Python, JavaScript, cloud computing, data engineering, and more"
+              },
+              {
+                "title": "AI × Industry Convergence Education",
+                "description": "Cultivating talent with creative problem-solving abilities by integrating AI with various industries"
+              },
+              {
+                "title": "Industry-linked Projects and Practical Education",
+                "description": "Conducting practice-oriented research projects in collaboration with companies"
+              }
+            ],
+            "des": "We are building a hybrid education system combining online and offline methods to cultivate AI and IT talent even in resource-limited countries, and providing a more efficient learning environment by utilizing ChatGPT and AI-based educational tools."
+          }
+        },
+        "research": {
+          "title": "Research & Development (R&D) and Core Technology Research",
+          "subtitle": "Research & Development and Core Technologies",
+          "content": {
+            "heading": "iATER focuses on exploring cutting-edge technologies and creating practical innovations through AI and IT-related research and development (R&D).",
+            "items": [
+              {
+                "title": "AI and Machine Learning Research",
+                "description": "AI algorithm optimization, automated learning systems, reinforcement learning (RL) research"
+              },
+              {
+                "title": "Natural Language Processing (NLP) and Generative AI Research",
+                "description": "ChatGPT, AI translators, speech recognition, AI-based content generation"
+              },
+              {
+                "title": "Data Science and Big Data Research",
+                "description": "Data analysis, predictive modeling, Smart City technology research"
+              },
+              {
+                "title": "AI + Arts & Entertainment Research",
+                "description": "AI-based animation production, AI art generation, real-time rendering technology"
+              },
+              {
+                "title": "Robotics and Automation Research",
+                "description": "AI robot development, autonomous driving technology, Smart Factories (Factories of the Future)"
+              }
+            ],
+            "des": "This research is not limited to theoretical studies but connects to applied research for solving real industrial and social problems, and research results are supported to be commercialized through collaboration with Laotian and global companies."
+          }
+        },
+        "creative": {
+          "title": "AI + Creative Industries",
+          "subtitle": "AI + Creative Industries",
+          "content": {
+            "heading": "iATER recognizes that AI technology can drive innovation in arts and creative fields. We support young Laotian artists in doing more creative work in the digital age by utilizing AI-based animation production, multimedia content development, and creative design technologies.",
+            "items": [
+              {
+                "title": "AI Animation and Character Design",
+                "description": "AI-based image generation, virtual character animation, 3D modeling"
+              },
+              {
+                "title": "AI-based Music and Sound Design",
+                "description": "AI composition, voice synthesis technology, AI-based audio production • Virtual Reality (VR) and Augmented Reality (AR) research: Developing immersive experiences combined with AI"
+              },
+              {
+                "title": "AI Video Processing and Automation Technology",
+                "description": "AI-based automatic editing, real-time graphics generation, deep learning-based video synthesis"
+              }
+            ],
+            "des": "In particular, we research the use of AI for animation and game development, actively introducing AI-based real-time graphics generation, character motion automation, storytelling assistance systems, and more. Through this, creators can produce more creative and immersive works in shorter time periods."
+          }
+        }
+      }
+    },
+    "mission": {
+      "context": "In a rapidly changing global environment, we aim to establish a research institute that fosters talented Laotian youth, bridges the technology gap and popularizes ICT by providing computer education throughout Laos, and helps them achieve self-sufficiency through training professional developers and instructors."
+    },
+    "missionStatement": {
+      "sigleContext": "iATER aims to cultivate Laotian youth into well-rounded ICT professionals <br />  through education and research from diverse perspectives."
+    },
+    "instituteIdentity": {
+      "option1": "Accuracy and Trust: Data-Driven, Systematic Education Quality",
+      "option2": "Social Impact and Collaboration: Industry-Academia-Research Collaboration, Sustainability",
+      "option3": "Challenge and Breakthrough: A Research Spirit that Overcomes Difficult Problems and Long-Term Trust",
+      "option4": "Inquiry and Creativity: Imagination and Interdisciplinary Integration",
+      "singleContext": "A research and education hub that expands knowledge step by step"
+    }
+  },
+  "history": {
+    "2020_line1": "2018 04 01 Lao-Korean College [President: Dr. Jong-Beom Lee] Organization CPDC (Computer Program Development Center)",
+    "2020_line2": "2019 02 05 Securing a research lab within Lao-Korean College",
+    "2020_line3": "2020 10 08 Launch of iATER, a research institute under Lao-Korean College",
+    "2023_line1": "2023 1 23 Presentation skills and RFP writing, planning special lecture [C&Is Com, Planning Director Kim Chang-ho]",
+    "2023_line2": "2023 07 27 Demonstration presentation of Logos University academic management system",
+    "2023_line3": "2023 08 07 ~10 Dispatch of main lecturer for IT CAMP for youth (Berkeo Dream School)",
+    "2023_line4": "2023 09 05. Dispatch of web programmer to Laos branch of Humascott Inc.",
+    "2024_line1": "2024 01 15~17 AI application service utilization [Professor Lee Sang-sik]",
+    "2024_line2": "2024 2 12~16 Web front-end development special lecture [Team Leader Choi Nak-hyun et al. 1]",
+    "2024_line3": "2024 2 25~29 Seminar on V2X communication and multi-domain service for autonomous driving [Electronics and Telecommunications Research Institute (ETRI) Dr. Oh Hyun-seo et al. 1)]",
+    "2024_line4": "2024 06 07 iATER Research Institute business registration",
+    "2024_line5": "2024 07 01 ~ 25.1 Project cooperation with U:companion Group U:learn up",
+    "2024_line6": "2024 09 Support for lectures in Computer IT Department, College of Engineering, National University of Laos (NUOL) [AI, AIoT field]",
+    "2025_line1": "2025 02 16~21 Joint project promotion of Shinhan University & National University of Laos (AI app)",
+    "2025_line2": "2025 03 07 Collaborative research institute of Computer IT Department, College of Engineering, National University of Laos (Research and education curriculum development in AI, AIoT field)",
+    "2025_line3": "2025 04 01 ~ Dispatch of IICT University S/W field [Web, App, AI] instructor (NIPA supported 2-year project)"
+  },
+  "professors": {
+    "advisor": {
+      "Advisor": "Advisor"
+    },
+    "professor": {
+      "Professor": "Professor"
+    },
+    "resouce": {
+      "Resouce": "Human <br /> Resource & Finance"
+    }
+  },
+  "programs": {
+    "slide1": {
+      "title": ""
+    },
+    "slide2": {
+      "title": "",
+      "1": {
+        "li_1": "Basic Programming",
+        "li_2": "Basic Design",
+        "li_3": "Languages [English, Korean]",
+        "li_4": "Basic Studies & Liberal Arts [Mathematics, Humanities]"
+      },
+      "2": {
+        "li_1": "Programming Project Participation",
+        "li_2": "On-site Educational Courses",
+        "li_3": "Design and Video Projects",
+        "li_4": "Engineering Mathematics"
+      },
+      "3": {
+        "li_1": "IT Company Internship Program",
+        "li_2": "Master's & Doctoral Preparation Course",
+        "li_3": "Language Proficiency Tests"
+      },
+      "4": {
+        "li_1": "ICT-related Master's & Doctoral Programs",
+        "li_2": "Employment at Korean & Laotian ICT Companies",
+        "li_3": "Korean ICT Project Research Activities",
+        "li_4": "ICT Startup Incubating"
+      }
+    },
+    "slide3": {
+      "title": ""
+    },
+    "slide4": {
+      "title": ""
+    }
+  },
+  "noblogs": {
+    "title": "No blog posts available",
+    "description": "There are currently no posts to display. Please check back later as new content may be added soon.",
+    "refreshButton": "Refresh Page",
+    "whatCando": {
+      "whatCando": "What can you do:",
+      "option1": "Check back later.",
+      "option2": "Refresh the page",
+      "option3": "Browse other sections"
+    }
+  },
+  "projectpage":{
+    "read_more":"Read More"
+  }
+
+
+}
