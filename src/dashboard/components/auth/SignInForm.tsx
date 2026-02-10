@@ -39,7 +39,7 @@ export default function SignInForm() {
     }
 
     // Navigation should be handled by protected routes or useEffect in App
-    navigate("/profile");
+    navigate("/admin");
     setLoading(false);
   };
 

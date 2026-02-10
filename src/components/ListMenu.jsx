@@ -7,7 +7,7 @@ const ListMenu = ({ classStyle = "" }) => {
 
   const handleClick = (boxName) => {
     setActiveBox(boxName);
-    navigate("/iater/"); // ← go to home page
+    navigate("/home"); // ← go to home page
   };
 
   return (

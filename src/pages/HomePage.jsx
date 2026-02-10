@@ -13,26 +13,26 @@ const HomePage = () => {
     return 'mobileWidth'; // mobile
   };
   const aboutMenuItems = [
-    { name: `${t("home.aboutMenuItems1")}`, link: "/iater/about#vision" },
-    { name: `${t("home.aboutMenuItems2")}`, link: "/iater/about#mission" },
-    { name: `${t("home.aboutMenuItems3")}`, link: "/iater/about#mission-statement" },
-    { name: `${t("home.aboutMenuItems4")}`, link: "/iater/about#organization" },
-    { name: `${t("home.aboutMenuItems5")}`, link: "/iater/professors" },
-    { name: `${t("home.aboutMenuItems6")}`, link: "/iater/history" },
-    { name: `${t("home.aboutMenuItems7")}`, link: "/iater/about#logo" },
+    { name: `${t("home.aboutMenuItems1")}`, link: "/about#vision" },
+    { name: `${t("home.aboutMenuItems2")}`, link: "/about#mission" },
+    { name: `${t("home.aboutMenuItems3")}`, link: "/about#mission-statement" },
+    { name: `${t("home.aboutMenuItems4")}`, link: "/about#organization" },
+    { name: `${t("home.aboutMenuItems5")}`, link: "/professors" },
+    { name: `${t("home.aboutMenuItems6")}`, link: "/history" },
+    { name: `${t("home.aboutMenuItems7")}`, link: "/about#logo" },
   ]
 
   const projectMenuItems = [
-    { name: `${t("home.projectMenuItems1")}`, link: "/iater/project#external" },
-    { name: `${t("home.projectMenuItems2")}`, link: "/iater/project#internal" },
-    { name: `${t("home.projectMenuItems3")}`, link: "/iater/project#research" },
+    { name: `${t("home.projectMenuItems1")}`, link: "/project#external" },
+    { name: `${t("home.projectMenuItems2")}`, link: "/project#internal" },
+    { name: `${t("home.projectMenuItems3")}`, link: "/project#research" },
   ]
 
   const programMenuItems = [
-    { name: `${t("home.programMenuItems1")}`, link: "/iater/program?slide=0" },
-    { name: `${t("home.programMenuItems2")}`, link: "/iater/program?slide=1" },
-    { name: `${t("home.programMenuItems3")}`, link: "/iater/program?slide=2" },
-    { name: `${t("home.programMenuItems4")}`, link: "/iater/program?slide=3" },
+    { name: `${t("home.programMenuItems1")}`, link: "/program?slide=0" },
+    { name: `${t("home.programMenuItems2")}`, link: "/program?slide=1" },
+    { name: `${t("home.programMenuItems3")}`, link: "/program?slide=2" },
+    { name: `${t("home.programMenuItems4")}`, link: "/program?slide=3" },
   ]
 
  // Map language to font class

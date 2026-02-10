@@ -59,7 +59,7 @@ function App() {
         />
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Onboard />} />
+          {/* <Route path="/" element={<Onboard />} />
           <Route path="iater" element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="about" element={<AboutPage />} />
@@ -70,12 +70,24 @@ function App() {
             <Route path="history" element={<HistoryPage />} />
             <Route path="aieducation" element={<AIEducationTabs />} />
 
+          </Route> */}
+
+          <Route index element={<Onboard />} />
+
+          <Route path="/" element={<Layout />}>
+            <Route path="home" element={<HomePage />} />
+            <Route path="about" element={<AboutPage />} />
+            <Route path="project" element={<ProjectPage />} />
+            <Route path="program" element={<ProgramPage />} />
+            <Route path="professors" element={<Professors />} />
+            <Route path="history" element={<HistoryPage />} />
+            <Route path="aieducation" element={<AIEducationTabs />} />
           </Route>
 
           {/* Dashboard */}
 
           <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
-            <Route index path="/dashboard" element={<Home />} />
+            <Route index path="/admin" element={<Home />} />
 
             {/* Others Page */}
             <Route path="/profile" element={<UserProfiles />} />

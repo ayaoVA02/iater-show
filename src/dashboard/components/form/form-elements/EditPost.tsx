@@ -70,7 +70,7 @@ export default function EditPost() {
         if (error) {
           console.error("Error fetching post:", error);
           toast.error("Failed to load post", { id: loadingToast });
-          navigate("/dashboard");
+          navigate("/admin");
           return;
         }
 
@@ -212,7 +212,7 @@ export default function EditPost() {
       
       // Navigate back to dashboard after short delay
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/admin");
       }, 1500);
 
     } catch (err) {
