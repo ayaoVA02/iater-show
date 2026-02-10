@@ -129,7 +129,7 @@ const AIResearchTabs = () => {
   const [activeTab, setActiveTab] = useState(initialTab);
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   // Icons for navigation
   const navIcons = [

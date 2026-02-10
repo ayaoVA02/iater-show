@@ -8,45 +8,45 @@ const HistoryPage = () => {
     la: "font-lao",
     ko: "font-kr",
   }[i18n.language];
-  const historyItems = [
-    {
-      year: 2025,
-      events: [
-        `${t("history.2025_line3")}`,
-        `${t("history.2025_line2")}`,
-        `${t("history.2025_line1")}`,
+  // const historyItems = [
+  //   {
+  //     year: 2025,
+  //     events: [
+  //       `${t("history.2025_line3")}`,
+  //       `${t("history.2025_line2")}`,
+  //       `${t("history.2025_line1")}`,
 
-      ],
-    },
-    {
-      year: 2024,
-      events: [
-        `${t("history.2024_line6")}`,
-        `${t("history.2024_line5")}`,
-        `${t("history.2024_line4")}`,
-        `${t("history.2024_line3")}`,
-        `${t("history.2024_line2")}`,
-        `${t("history.2024_line1")}`,
-      ],
-    },
-    {
-      year: 2023,
-      events: [
-        `${t("history.2023_line4")}`,
-        `${t("history.2023_line3")}`,
-        `${t("history.2023_line2")}`,
-        `${t("history.2023_line1")}`,
-      ],
-    },
-    {
-      year: 2020,
-      events: [
-        `${t("history.2020_line3")}`,
-        `${t("history.2020_line2")}`,
-        `${t("history.2020_line1")}`
-      ],
-    },
-  ]
+  //     ],
+  //   },
+  //   {
+  //     year: 2024,
+  //     events: [
+  //       `${t("history.2024_line6")}`,
+  //       `${t("history.2024_line5")}`,
+  //       `${t("history.2024_line4")}`,
+  //       `${t("history.2024_line3")}`,
+  //       `${t("history.2024_line2")}`,
+  //       `${t("history.2024_line1")}`,
+  //     ],
+  //   },
+  //   {
+  //     year: 2023,
+  //     events: [
+  //       `${t("history.2023_line4")}`,
+  //       `${t("history.2023_line3")}`,
+  //       `${t("history.2023_line2")}`,
+  //       `${t("history.2023_line1")}`,
+  //     ],
+  //   },
+  //   {
+  //     year: 2020,
+  //     events: [
+  //       `${t("history.2020_line3")}`,
+  //       `${t("history.2020_line2")}`,
+  //       `${t("history.2020_line1")}`
+  //     ],
+  //   },
+  // ]
 
     const deviceType = useDeviceType();
   const getContentWidth = () => {

@@ -6,7 +6,7 @@ import { CiShare2 } from 'react-icons/ci';
 import { FcLike, FcLikePlaceholder } from 'react-icons/fc';
 import DOMPurify from 'dompurify';
 
-const BlogPostModal = ({ post, isOpen, onClose, allPosts }) => {
+const BlogPostModal = ({ post, isOpen, onClose }) => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(0);
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);

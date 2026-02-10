@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import useDeviceType from "../hook/useDeviceType";
 import { useHoverBox } from "../context/HoverContext";
 import { Trans } from "react-i18next";
 import { im25, im4, im5, im6, im7, im8, im9 } from "../assets/images";
-import ImageZoom from "./ImageZoom";
 
 const ProjectBox = ({ title, color, link, subtitle, menuItems }) => {
   const { activeBox, clearActiveBox } = useHoverBox();

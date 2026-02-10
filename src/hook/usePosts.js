@@ -2,12 +2,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const fetchPosts = async () => {
-  const res = await axios.get(`http://localhost:3000/api/posts`);
-
- return Array.isArray(res.data) ? res.data : res.data.data || [];
-}; 
-
 
 const fetchPostById = async (postId) => {
   if (!postId) throw new Error("postId is required");

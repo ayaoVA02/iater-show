@@ -8,7 +8,7 @@ import ImageZoom from "../components/ImageZoom";
 import { useHoverBox } from "../context/HoverContext"
 const AboutPage = () => {
   const location = useLocation()
-  const [activeSection, setActiveSection] = useState("vision")
+  // const [activeSection, setActiveSection] = useState("vision")
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
@@ -21,7 +21,7 @@ const AboutPage = () => {
   useEffect(() => {
     if (location.hash) {
       const sectionId = location.hash.substring(1);
-      setActiveSection(sectionId);
+      // setActiveSection(sectionId);
 
       // 👇 Scroll to the element with this ID
       const element = document.getElementById(sectionId);
@@ -33,14 +33,6 @@ const AboutPage = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [location]);
-  const gotoHistory = () => {
-    navigate('/history');
-  };
-
-  function truncateWords(text, count) {
-    const words = text.split(' ');
-    return words.length <= count ? text : words.slice(0, count).join(' ') + '...';
-  }
 
 
   const { setActiveBox } = useHoverBox();
