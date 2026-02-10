@@ -34,7 +34,7 @@ function Professors() {
                     <div className="relative flex flex-col ">
 
                         {/* Background red box - set behind with lower z-index */}
-                        <div className={`${isMobile ? "w-[20px]" : "w-[200px]"} absolute h-[75%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#2e939a] z-0`} />
+                        <div className={`${isMobile ? "w-5" : "w-[200px]"} absolute h-[75%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#2e939a] z-0`} />
 
 
                         <div className="relative group inline-block w-full  mt-6" id='leejong'>
@@ -106,7 +106,7 @@ function Professors() {
 
 
                         {/* Background red box - set behind with lower z-index */}
-                        <div className={`${isMobile ? "w-[20px]" : "w-[200px]"} absolute h-[90%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#2e939a] z-0`} />
+                        <div className={`${isMobile ? "w-5" : "w-[200px]"} absolute h-[90%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#2e939a] z-0`} />
 
 
                         <div className={`relative group inline-block w-full  ${isMobile ? "pt-6" : "pt-32  mb-24"}`} id='baek'>
@@ -289,7 +289,7 @@ function Professors() {
 
                     <div className="relative flex flex-col  ">
                         {/* Background red box - set behind with lower z-index */}
-                        <div className={`${isMobile ? "w-[20px]" : "w-[200px]"} absolute h-[75%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#2e939a] z-0`} />
+                        <div className={`${isMobile ? "w-5" : "w-[200px]"} absolute h-[75%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#2e939a] z-0`} />
 
 
                         <div className={`relative group inline-block w-full   ${isMobile ? "pt-6" : "pt-32 mb-24"}`} id='yu'>

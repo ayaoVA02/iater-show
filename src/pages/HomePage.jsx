@@ -24,8 +24,8 @@ const HomePage = () => {
 
   const projectMenuItems = [
     { name: `${t("home.projectMenuItems1")}`, link: "/project#external" },
-    { name: `${t("home.projectMenuItems2")}`, link: "/project#internal" },
-    { name: `${t("home.projectMenuItems3")}`, link: "/project#research" },
+    // { name: `${t("home.projectMenuItems2")}`, link: "/project#internal" },
+    // { name: `${t("home.projectMenuItems3")}`, link: "/project#research" },
   ]
 
   const programMenuItems = [

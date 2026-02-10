@@ -13,6 +13,7 @@ import im6 from './6.jpeg'
 import im7 from './7.jpeg'
 import im8 from './8.jpeg'
 import im9 from './9.jpeg'
+import im25 from './25.jpeg'
 import prfJongbum from './jongbum.png'
 import map from './map.png'
 export {
@@ -31,4 +32,5 @@ export {
   im9,
   prfJongbum,
   map,
+  im25
 }
