@@ -125,14 +125,14 @@ const AboutPage = () => {
               <h1 className={` ${isMobile ? "text-2xl": "text-4xl"} font-bold mb-4 text-[#105691]`}>{t("home.aboutMenuItems3")}</h1>
               <div className="flex justify-center mt-6 gap-4">
                 <div className="text-center">
-                  <Link to={'/homeaieducation'} >
+                  <Link to={'/aieducation'} >
                     <div className={` ${isMobile ? "w-[100px]" : "w-[300px]"} h-auto mx-auto  mb-2`}>
                       <img src="/webimage/cores1.png" className="hover:scale-110 transition-all duration-300" alt="" />
                     </div>
                   </Link>
                 </div>
                 <div className="text-center ">
-                  <Link to={'/homeaieducation'}  >
+                  <Link to={'/aieducation'}  >
 
                     <div className={` ${isMobile ? "w-[100px]" : "w-[300px]"} h-auto mx-auto  mb-2`}>
 
@@ -144,7 +144,7 @@ const AboutPage = () => {
                   </Link>
                 </div>
                 <div className="text-center ">
-                  <Link to={'/homeaieducation'} >
+                  <Link to={'/aieducation'} >
 
                     <div className={` ${isMobile ? "w-[100px]" : "w-[300px]"} h-auto mx-auto  mb-2`}>
 

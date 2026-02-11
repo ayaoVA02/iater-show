@@ -142,12 +142,13 @@ const BlogPostModal = ({ post, isOpen, onClose }) => {
                       <span className="text-sm font-medium">{post.like}</span>
                       {liked ? <FcLike size={18} /> : <FcLikePlaceholder size={18} />}
                     </button>
-                    <button
+                    <a href='https://www.facebook.com/profile.php?id=100076123785189'
+                      target="_blank"
                       className="p-2 rounded-full bg-white/90 hover:bg-white transition-colors shadow-md"
                       aria-label="Share on Facebook"
                     >
                       <FaFacebook size={18} className="text-blue-600" />
-                    </button>
+                    </a>
                     <button
                       className="p-2 rounded-full bg-white/90 hover:bg-white transition-colors shadow-md"
                       aria-label="Share"
