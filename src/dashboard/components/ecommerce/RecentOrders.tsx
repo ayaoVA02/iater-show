@@ -12,6 +12,26 @@ import { supabase } from "../../../../lib/supabase";
 import { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
 
+const parseImageUrls = (imageValue: string | null | undefined) => {
+  if (!imageValue) return [];
+
+  try {
+    const parsed = JSON.parse(imageValue);
+    if (Array.isArray(parsed)) {
+      return parsed.filter(
+        (url): url is string => typeof url === "string" && url.trim() !== "",
+      );
+    }
+  } catch {
+    // Keep backward compatibility with single URL values.
+  }
+
+  return imageValue
+    .split(",")
+    .map((url) => url.trim())
+    .filter(Boolean);
+};
+
 export default function RecentOrders() {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -167,7 +187,7 @@ export default function RecentOrders() {
                   <div className="flex items-center gap-3">
                     <div className="h-[50px] w-[50px] overflow-hidden rounded-md">
                       <img
-                        src={product.image_url || `/uploads/${product.images}`}
+                        src={parseImageUrls(product.image_url)[0] || `/uploads/${product.images}`}
                         className="h-[50px] w-[50px] object-cover"
                         alt={product.title}
                       />

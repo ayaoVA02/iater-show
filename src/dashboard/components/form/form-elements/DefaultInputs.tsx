@@ -24,11 +24,15 @@ const selectOptions = [
 ];
 
 export default function DefaultInputs() {
-  const [inputValue, setInputValue] = useState("");
+  const [titleLa, setTitleLa] = useState("");
+  const [titleEn, setTitleEn] = useState("");
+  const [titleKo, setTitleKo] = useState("");
   const [selectedOption, setSelectedOption] = useState<string>("");
-  const [message, setMessage] = useState("");
-  const [preview, setPreview] = useState<string | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [contentLa, setContentLa] = useState("");
+  const [contentEn, setContentEn] = useState("");
+  const [contentKo, setContentKo] = useState("");
+  const [previews, setPreviews] = useState<string[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,10 +40,10 @@ export default function DefaultInputs() {
 
   // Validation states
   const [touched, setTouched] = useState({
-    inputValue: false,
+    titleLa: false,
     selectedOption: false,
-    message: false,
-    file: false,
+    contentLa: false,
+    files: false,
   });
 
   const { user, loading } = useAuth();
@@ -71,6 +75,12 @@ export default function DefaultInputs() {
     return result;
   };
 
+  useEffect(() => {
+    return () => {
+      previews.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [previews]);
+
   const uploadImageToStorage = async (file: File) => {
     if (!file || !user) throw new Error("File or user not found");
 
@@ -91,24 +101,40 @@ export default function DefaultInputs() {
     return data.publicUrl;
   };
 
+  const serializeImageUrls = (urls: string[]) => {
+    if (urls.length === 0) return null;
+    return urls.length === 1 ? urls[0] : JSON.stringify(urls);
+  };
+
+  const clearSelectedFiles = () => {
+    previews.forEach((url) => URL.revokeObjectURL(url));
+    setPreviews([]);
+    setSelectedFiles([]);
+  };
+
   useEffect(() => {
-    localStorage.setItem("blog_inputValue", inputValue);
+    localStorage.setItem("blog_title", titleLa);
+    localStorage.setItem("blog_title_en", titleEn);
+    localStorage.setItem("blog_title_ko", titleKo);
     localStorage.setItem("blog_selectedOption", selectedOption);
-    localStorage.setItem("blog_message", message);
-  }, [inputValue, selectedOption, message]);
+    localStorage.setItem("blog_content", contentLa);
+    localStorage.setItem("blog_content_en", contentEn);
+    localStorage.setItem("blog_content_ko", contentKo);
+  }, [titleLa, titleEn, titleKo, selectedOption, contentLa, contentEn, contentKo]);
 
   const handleDrop = (acceptedFiles: File[]) => {
-    if (acceptedFiles && acceptedFiles[0]) {
-      setSelectedFile(acceptedFiles[0]);
-      setPreview(URL.createObjectURL(acceptedFiles[0]));
-      setTouched({ ...touched, file: true });
+    if (acceptedFiles.length > 0) {
+      const newPreviews = acceptedFiles.map((file) => URL.createObjectURL(file));
+      setSelectedFiles((prev) => [...prev, ...acceptedFiles]);
+      setPreviews((prev) => [...prev, ...newPreviews]);
+      setTouched((prev) => ({ ...prev, files: true }));
     }
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: handleDrop,
     accept: fileTypes,
-    multiple: false,
+    multiple: true,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -118,14 +144,14 @@ export default function DefaultInputs() {
 
     // Mark all fields as touched
     setTouched({
-      inputValue: true,
+      titleLa: true,
       selectedOption: true,
-      message: true,
-      file: true,
+      contentLa: true,
+      files: true,
     });
 
-    if (!inputValue || !selectedOption || !message || !selectedFile || !user?.id) {
-      alert("Please fill all required fields and upload an image.");
+    if (!titleLa || !selectedOption || !contentLa || selectedFiles.length === 0 || !user?.id) {
+      alert("Please fill all required fields and upload at least one image.");
       return;
     }
 
@@ -139,19 +165,20 @@ export default function DefaultInputs() {
         return;
       }
 
-      let imageUrl: string | null = null;
+      const uploadedImageUrls = await Promise.all(selectedFiles.map(uploadImageToStorage));
+      const imageUrl = serializeImageUrls(uploadedImageUrls);
 
-      if (selectedFile) {
-        imageUrl = await uploadImageToStorage(selectedFile);
-      }
-
-      const { error, data } = await supabase
+      const { error } = await supabase
         .from("blogs")
         .insert([
           {
-            title: inputValue,
+            title: titleLa,
+            title_en: titleEn || null,
+            title_ko: titleKo || null,
             types: selectedOption,
-            content: message,
+            content: contentLa,
+            content_en: contentEn || null,
+            content_ko: contentKo || null,
             view: 0,
             author_id: user.id,
             image_url: imageUrl,
@@ -161,7 +188,6 @@ export default function DefaultInputs() {
 
       if (error) {
         alert("Failed to submit blog. Please try again.");
-        setIsLoading(false);
         console.error("Error submitting blog:", error);
         return;
       }
@@ -173,36 +199,37 @@ export default function DefaultInputs() {
       setShowToast(true);
 
       // Reset form
-      setInputValue("");
+      setTitleLa("");
+      setTitleEn("");
+      setTitleKo("");
       setSelectedOption("");
-      setMessage("");
-      setPreview(null);
-      setSelectedFile(null);
+      setContentLa("");
+      setContentEn("");
+      setContentKo("");
+      clearSelectedFiles();
       setTouched({
-        inputValue: false,
+        titleLa: false,
         selectedOption: false,
-        message: false,
-        file: false,
+        contentLa: false,
+        files: false,
       });
-
-
-      setIsLoading(false);
 
 
     } catch (err) {
       alert("Failed to submit blog. Please try again.");
-      setIsLoading(false);
       console.error("Error submitting blog:", err);
       setError("Failed to submit blog.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   // Validation helpers
   const isInvalid = {
-    inputValue: touched.inputValue && !inputValue,
+    titleLa: touched.titleLa && !titleLa,
     selectedOption: touched.selectedOption && !selectedOption,
-    message: touched.message && !message,
-    file: touched.file && !selectedFile,
+    contentLa: touched.contentLa && !contentLa,
+    files: touched.files && selectedFiles.length === 0,
   };
 
   return (
@@ -218,28 +245,48 @@ export default function DefaultInputs() {
 
           {/* File Drop Area */}
           <div>
-            <Label>Upload Image <span className="text-red-500">*</span></Label>
+            <Label>Upload Image(s) <span className="text-red-500">*</span></Label>
             <div
               {...getRootProps()}
               className={`cursor-pointer rounded-xl border-2 border-dashed p-7 lg:p-10 transition ${isDragActive
                 ? "border-brand-500 bg-gray-100 dark:bg-gray-800"
-                : isInvalid.file
+                : isInvalid.files
                   ? "border-red-500 bg-red-50 dark:bg-red-900/10"
                   : "border-gray-300 bg-gray-50 dark:border-gray-700 dark:bg-gray-900"
                 }`}
             >
               <input {...getInputProps()} />
               <div className="flex flex-col items-center">
-                {preview ? (
-                  <img
-                    src={preview}
-                    alt="Preview"
-                    className="mb-4 h-50 object-contain"
-                  />
+                {previews.length > 0 ? (
+                  <div className="w-full">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                      {previews.map((preview, index) => (
+                        <img
+                          key={`${preview}-${index}`}
+                          src={preview}
+                          alt={`Preview ${index + 1}`}
+                          className="h-28 w-full object-cover rounded-lg"
+                        />
+                      ))}
+                    </div>
+                    <p className="text-sm text-center text-gray-600 dark:text-gray-300 mb-3">
+                      {selectedFiles.length} image(s) selected
+                    </p>
+                    <button
+                      type="button"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        clearSelectedFiles();
+                      }}
+                      className="mx-auto block rounded-lg border border-gray-300 px-3 py-1.5 text-xs text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+                    >
+                      Clear selection
+                    </button>
+                  </div>
                 ) : (
                   <>
                     <div className="mb-5 flex justify-center">
-                      <div className={`flex h-[68px] w-[68px] items-center justify-center rounded-full ${isInvalid.file
+                      <div className={`flex h-[68px] w-[68px] items-center justify-center rounded-full ${isInvalid.files
                         ? "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"
                         : "bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-400"
                         }`}>
@@ -261,34 +308,55 @@ export default function DefaultInputs() {
                       {isDragActive ? "Drop Files Here" : "Drag & Drop Files Here"}
                     </h4>
                     <span className="mb-5 block w-full max-w-[290px] text-center text-sm text-gray-700 dark:text-gray-400">
-                      PNG, JPG, WebP, SVG files supported. Or click to browse.
+                      PNG, JPG, WebP, SVG files supported. Select one or many images.
                     </span>
                     <span className="text-brand-500 text-theme-sm font-medium underline">
-                      Browse File
+                      Browse Files
                     </span>
                   </>
                 )}
               </div>
             </div>
-            {isInvalid.file && (
-              <p className="mt-2 text-sm text-red-600 dark:text-red-400">Please upload an image</p>
+            {isInvalid.files && (
+              <p className="mt-2 text-sm text-red-600 dark:text-red-400">Please upload at least one image</p>
             )}
           </div>
 
-          {/* Text Input */}
+          {/* Lao Title */}
           <div>
-            <Label htmlFor="input">Title <span className="text-red-500">*</span></Label>
+            <Label htmlFor="title-la">Title (Lao) <span className="text-red-500">*</span></Label>
             <Input
               type="text"
-              id="input"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              // onBlur={() => setTouched({ ...touched, inputValue: true })}
-              className={isInvalid.inputValue ? "!border-red-500 focus:!border-red-500 focus:!ring-1 focus:!ring-red-500" : ""}
+              id="title-la"
+              value={titleLa}
+              onChange={(e) => setTitleLa(e.target.value)}
+              className={isInvalid.titleLa ? "!border-red-500 focus:!border-red-500 focus:!ring-1 focus:!ring-red-500" : ""}
             />
-            {isInvalid.inputValue && (
-              <p className="mt-2 text-sm text-red-600 dark:text-red-400">Title is required</p>
+            {isInvalid.titleLa && (
+              <p className="mt-2 text-sm text-red-600 dark:text-red-400">Lao title is required</p>
             )}
+          </div>
+
+          {/* English Title */}
+          <div>
+            <Label htmlFor="title-en">Title (English)</Label>
+            <Input
+              type="text"
+              id="title-en"
+              value={titleEn}
+              onChange={(e) => setTitleEn(e.target.value)}
+            />
+          </div>
+
+          {/* Korean Title */}
+          <div>
+            <Label htmlFor="title-ko">Title (Korean)</Label>
+            <Input
+              type="text"
+              id="title-ko"
+              value={titleKo}
+              onChange={(e) => setTitleKo(e.target.value)}
+            />
           </div>
 
           {/* Select Dropdown */}
@@ -299,7 +367,7 @@ export default function DefaultInputs() {
               placeholder="Select an option"
               onChange={(value: string) => {
                 setSelectedOption(value);
-                setTouched({ ...touched, selectedOption: true });
+                setTouched((prev) => ({ ...prev, selectedOption: true }));
               }}
               className={isInvalid.selectedOption ? "border-red-500" : ""}
             />
@@ -308,22 +376,53 @@ export default function DefaultInputs() {
             )}
           </div>
 
-          {/* TextArea */}
+          {/* Lao Content */}
           <div>
-            <Label>Description <span className="text-red-500">*</span></Label>
+            <Label>Description (Lao) <span className="text-red-500">*</span></Label>
             <p className="text-sm text-gray-400 mb-2">Write subtitle with h2 --title--- h2</p>
             <TextArea
-              value={message}
-              onChange={setMessage}
-              // onBlur={() => setTouched({ ...touched, message: true })}
+              value={contentLa}
+              onChange={setContentLa}
               rows={6}
               hint="Please enter a valid message."
-              className={isInvalid.message ? "!border-red-500 focus:!border-red-500 focus:!ring-1 focus:!ring-red-500" : ""}
+              className={isInvalid.contentLa ? "!border-red-500 focus:!border-red-500 focus:!ring-1 focus:!ring-red-500" : ""}
             />
-            {isInvalid.message && (
-              <p className="mt-2 text-sm text-red-600 dark:text-red-400">Description is required</p>
+            {isInvalid.contentLa && (
+              <p className="mt-2 text-sm text-red-600 dark:text-red-400">Lao description is required</p>
             )}
           </div>
+
+          {/* English Content */}
+          <div>
+            <Label>Description (English)</Label>
+            <TextArea
+              value={contentEn}
+              onChange={setContentEn}
+              rows={6}
+              hint="Optional: English translation."
+            />
+          </div>
+
+          {/* Korean Content */}
+          <div>
+            <Label>Description (Korean)</Label>
+            <TextArea
+              value={contentKo}
+              onChange={setContentKo}
+              rows={6}
+              hint="Optional: Korean translation."
+            />
+          </div>
+
+          {success && (
+            <p className="text-sm text-green-600 dark:text-green-400">
+              {success}
+            </p>
+          )}
+
+          {showToast && (
+            <p className="text-sm text-brand-500">Post saved successfully.</p>
+          )}
 
           {/* Submit Button */}
           <Button disabled={isLoading}>

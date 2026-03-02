@@ -7,6 +7,30 @@ import BlogPostModal from "./BlogPostDetail";
 import Noblogs from "../components/Noblogs";
 import Skeleton_blogs from "../components/Skeleton_blogs";
 
+const parseImageUrls = (imageValue) => {
+  if (!imageValue) return [];
+
+  try {
+    const parsed = JSON.parse(imageValue);
+    if (Array.isArray(parsed)) {
+      return parsed.filter((url) => typeof url === "string" && url.trim() !== "");
+    }
+  } catch {
+    // Keep backward compatibility with single URL string values.
+  }
+
+  return String(imageValue)
+    .split(",")
+    .map((url) => url.trim())
+    .filter(Boolean);
+};
+
+const getLocalizedField = (post, baseField, language) => {
+  if (language === "en") return post[`${baseField}_en`] || post[baseField] || "";
+  if (language === "ko") return post[`${baseField}_ko`] || post[baseField] || "";
+  return post[baseField] || "";
+};
+
 const ProjectPage = () => {
   const { t, i18n } = useTranslation();
 
@@ -34,7 +58,11 @@ const ProjectPage = () => {
         .select(`
           id,
           title,
+          title_en,
+          title_ko,
           content,
+          content_en,
+          content_ko,
           created_at,
           image_url,
           view,
@@ -144,7 +172,7 @@ const ProjectPage = () => {
   };
 
   const stripHtmlTags = (html) => {
-    return html.replace(/<[^>]*>?/gm, "");
+    return (html || "").replace(/<[^>]*>?/gm, "");
   };
 
   // Loading state
@@ -176,6 +204,7 @@ const ProjectPage = () => {
               formatDate={formatDate}
               stripHtmlTags={stripHtmlTags}
               t={t}
+              language={i18n.language}
             />
           ))}
         </div>
@@ -192,7 +221,11 @@ const ProjectPage = () => {
 };
 
 // Extracted Blog Card Component
-const BlogCard = ({ post, onClick, formatDate, stripHtmlTags, t }) => {
+const BlogCard = ({ post, onClick, formatDate, stripHtmlTags, t, language }) => {
+  const title = getLocalizedField(post, "title", language);
+  const content = getLocalizedField(post, "content", language);
+  const primaryImage = parseImageUrls(post.image_url)[0] || "";
+
   return (
     <div
       onClick={onClick}
@@ -201,8 +234,8 @@ const BlogCard = ({ post, onClick, formatDate, stripHtmlTags, t }) => {
       {/* Image */}
       <div className="relative overflow-hidden">
         <img
-          src={post.image_url}
-          alt={post.title}
+          src={primaryImage}
+          alt={title}
           className="w-full h-48 object-cover transform transition-transform duration-500 group-hover:scale-110"
         />
       </div>
@@ -210,7 +243,7 @@ const BlogCard = ({ post, onClick, formatDate, stripHtmlTags, t }) => {
       {/* Content */}
       <div className="p-6">
         <h3 className="font-bold text-xl mb-3 line-clamp-2 text-gray-900">
-          {post.title}
+          {title}
         </h3>
 
         <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
@@ -226,7 +259,7 @@ const BlogCard = ({ post, onClick, formatDate, stripHtmlTags, t }) => {
         </div>
 
         <p className="text-gray-600 line-clamp-3">
-          {stripHtmlTags(post.content).substring(0, 120)}...
+          {stripHtmlTags(content).substring(0, 120)}...
         </p>
 
         <div className="mt-4 flex items-center text-blue-600 font-medium text-sm">

@@ -24,35 +24,67 @@ const selectOptions = [
   { value: "RESEARCH", label: "Research Activities" },
 ];
 
+const parseImageUrls = (imageValue: string | null | undefined) => {
+  if (!imageValue) return [];
+
+  try {
+    const parsed = JSON.parse(imageValue);
+    if (Array.isArray(parsed)) {
+      return parsed.filter(
+        (url): url is string => typeof url === "string" && url.trim() !== "",
+      );
+    }
+  } catch {
+    // Keep backward compatibility with single URL values.
+  }
+
+  return imageValue
+    .split(",")
+    .map((url) => url.trim())
+    .filter(Boolean);
+};
+
+const serializeImageUrls = (urls: string[]) => {
+  if (urls.length === 0) return null;
+  return urls.length === 1 ? urls[0] : JSON.stringify(urls);
+};
+
 export default function EditPost() {
   const { id } = useParams();
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 
-  const [inputValue, setInputValue] = useState("");
+  const [titleLa, setTitleLa] = useState("");
+  const [titleEn, setTitleEn] = useState("");
+  const [titleKo, setTitleKo] = useState("");
   const [selectedOption, setSelectedOption] = useState<string>("");
-  const [message, setMessage] = useState("");
-  const [preview, setPreview] = useState<string | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [oldImageUrl, setOldImageUrl] = useState<string | null>(null);
+  const [contentLa, setContentLa] = useState("");
+  const [contentEn, setContentEn] = useState("");
+  const [contentKo, setContentKo] = useState("");
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
+  const [oldImageUrls, setOldImageUrls] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
 
-  // Validation states
   const [touched, setTouched] = useState({
-    inputValue: false,
+    titleLa: false,
     selectedOption: false,
-    message: false,
+    contentLa: false,
   });
 
-  // Redirect if not authenticated
   useEffect(() => {
     if (!authLoading && !user) {
       navigate("/signin");
     }
   }, [authLoading, user, navigate]);
 
-  // Fetch post data on mount
+  useEffect(() => {
+    return () => {
+      previews.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [previews]);
+
   useEffect(() => {
     const fetchPost = async () => {
       if (!id) return;
@@ -75,10 +107,14 @@ export default function EditPost() {
         }
 
         if (data) {
-          setInputValue(data.title || "");
+          setTitleLa(data.title || "");
+          setTitleEn(data.title_en || "");
+          setTitleKo(data.title_ko || "");
           setSelectedOption(data.types || "");
-          setMessage(data.content || "");
-          setOldImageUrl(data.image_url || null);
+          setContentLa(data.content || "");
+          setContentEn(data.content_en || "");
+          setContentKo(data.content_ko || "");
+          setOldImageUrls(parseImageUrls(data.image_url));
           toast.success("Post loaded successfully", { id: loadingToast });
         }
       } catch (err) {
@@ -122,48 +158,55 @@ export default function EditPost() {
     return data.publicUrl;
   };
 
-  const deleteOldImage = async (imageUrl: string) => {
+  const deleteImageFromStorage = async (imageUrl: string) => {
     try {
-      // Extract file path from URL
       const urlParts = imageUrl.split("/");
-      const filePath = urlParts.slice(urlParts.indexOf("blogs")).join("/");
+      const blogsIndex = urlParts.indexOf("blogs");
+      if (blogsIndex === -1) return;
 
+      const filePath = urlParts.slice(blogsIndex).join("/");
       const { error } = await supabase.storage
         .from("iater2025-storage")
         .remove([filePath]);
 
       if (error) {
-        console.error("Error deleting old image:", error);
+        console.error("Error deleting image:", error);
       }
     } catch (err) {
-      console.error("Failed to delete old image:", err);
+      console.error("Failed to delete image:", err);
     }
   };
 
+  const clearSelectedFiles = () => {
+    previews.forEach((url) => URL.revokeObjectURL(url));
+    setPreviews([]);
+    setSelectedFiles([]);
+  };
+
   const handleDrop = (acceptedFiles: File[]) => {
-    if (acceptedFiles && acceptedFiles[0]) {
-      setSelectedFile(acceptedFiles[0]);
-      setPreview(URL.createObjectURL(acceptedFiles[0]));
+    if (acceptedFiles.length > 0) {
+      const newPreviews = acceptedFiles.map((file) => URL.createObjectURL(file));
+      setSelectedFiles((prev) => [...prev, ...acceptedFiles]);
+      setPreviews((prev) => [...prev, ...newPreviews]);
     }
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: handleDrop,
     accept: fileTypes,
-    multiple: false,
+    multiple: true,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Mark all fields as touched
     setTouched({
-      inputValue: true,
+      titleLa: true,
       selectedOption: true,
-      message: true,
+      contentLa: true,
     });
 
-    if (!inputValue || !selectedOption || !message) {
+    if (!titleLa || !selectedOption || !contentLa) {
       toast.error("Please fill all required fields.");
       return;
     }
@@ -174,47 +217,48 @@ export default function EditPost() {
     try {
       if (!user) {
         toast.error("You must be logged in", { id: loadingToast });
-        setIsLoading(false);
         return;
       }
 
-      let imageUrl = oldImageUrl;
+      let finalImageUrls = [...oldImageUrls];
 
-      // Upload new image if selected
-      if (selectedFile) {
-        imageUrl = await uploadImageToStorage(selectedFile);
-        
-        // Delete old image if it exists
-        if (oldImageUrl) {
-          await deleteOldImage(oldImageUrl);
-        }
+      // If new files are selected, replace all current images with the new list.
+      if (selectedFiles.length > 0) {
+        const uploadedImageUrls = await Promise.all(
+          selectedFiles.map(uploadImageToStorage),
+        );
+
+        await Promise.all(oldImageUrls.map(deleteImageFromStorage));
+        finalImageUrls = uploadedImageUrls;
       }
 
-      // Update post
       const { error } = await supabase
         .from("blogs")
         .update({
-          title: inputValue,
+          title: titleLa,
+          title_en: titleEn || null,
+          title_ko: titleKo || null,
           types: selectedOption,
-          content: message,
-          image_url: imageUrl,
+          content: contentLa,
+          content_en: contentEn || null,
+          content_ko: contentKo || null,
+          image_url: serializeImageUrls(finalImageUrls),
         })
         .eq("id", id);
 
       if (error) {
         console.error("Error updating post:", error);
         toast.error("Failed to update post", { id: loadingToast });
-        setIsLoading(false);
         return;
       }
 
-      toast.success("Post updated successfully! 🎉", { id: loadingToast });
-      
-      // Navigate back to dashboard after short delay
+      setOldImageUrls(finalImageUrls);
+      clearSelectedFiles();
+      toast.success("Post updated successfully!", { id: loadingToast });
+
       setTimeout(() => {
         navigate("/admin");
       }, 1500);
-
     } catch (err) {
       console.error("Error updating post:", err);
       toast.error("Failed to update post", { id: loadingToast });
@@ -223,12 +267,13 @@ export default function EditPost() {
     }
   };
 
-  // Validation helpers
   const isInvalid = {
-    inputValue: touched.inputValue && !inputValue,
+    titleLa: touched.titleLa && !titleLa,
     selectedOption: touched.selectedOption && !selectedOption,
-    message: touched.message && !message,
+    contentLa: touched.contentLa && !contentLa,
   };
+
+  const displayedImages = previews.length > 0 ? previews : oldImageUrls;
 
   if (isFetching) {
     return (
@@ -243,9 +288,8 @@ export default function EditPost() {
   return (
     <ComponentCard title="Edit Post">
       <form onSubmit={handleSubmit} className="space-y-12">
-        {/* File Drop Area */}
         <div>
-          <Label>Upload Image</Label>
+          <Label>Upload Image(s)</Label>
           <div
             {...getRootProps()}
             className={`cursor-pointer rounded-xl border border-dashed p-7 lg:p-10 transition ${
@@ -256,16 +300,35 @@ export default function EditPost() {
           >
             <input {...getInputProps()} />
             <div className="flex flex-col items-center">
-              {preview || oldImageUrl ? (
-                <div className="relative">
-                  <img
-                    src={preview || oldImageUrl || ""}
-                    alt="Preview"
-                    className="mb-4 h-50 max-w-full object-contain rounded-lg"
-                  />
-                  <p className="text-sm text-gray-500 text-center">
-                    {preview ? "New image selected" : "Current image"}
+              {displayedImages.length > 0 ? (
+                <div className="w-full">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                    {displayedImages.map((url, index) => (
+                      <img
+                        key={`${url}-${index}`}
+                        src={url}
+                        alt={`Post image ${index + 1}`}
+                        className="h-28 w-full object-cover rounded-lg"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-sm text-center text-gray-500">
+                    {previews.length > 0
+                      ? "New image list selected (will replace current images)"
+                      : "Current image list"}
                   </p>
+                  {previews.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        clearSelectedFiles();
+                      }}
+                      className="mt-3 mx-auto block rounded-lg border border-gray-300 px-3 py-1.5 text-xs text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+                    >
+                      Clear new selection
+                    </button>
+                  )}
                 </div>
               ) : (
                 <>
@@ -289,10 +352,10 @@ export default function EditPost() {
                     {isDragActive ? "Drop Files Here" : "Drag & Drop Files Here"}
                   </h4>
                   <span className="mb-5 block w-full max-w-[290px] text-center text-sm text-gray-700 dark:text-gray-400">
-                    PNG, JPG, WebP, SVG files supported. Or click to browse.
+                    PNG, JPG, WebP, SVG files supported. Select one or many images.
                   </span>
                   <span className="text-brand-500 text-theme-sm font-medium underline">
-                    Browse File
+                    Browse Files
                   </span>
                 </>
               )}
@@ -300,48 +363,65 @@ export default function EditPost() {
           </div>
         </div>
 
-        {/* ID Display (Read-only) */}
         <div>
           <Label htmlFor="id">Post ID</Label>
           <Input type="text" id="id" value={id || ""} disabled />
         </div>
 
-        {/* Title Input */}
         <div>
-          <Label htmlFor="title">
-            Title <span className="text-red-500">*</span>
+          <Label htmlFor="title-la">
+            Title (Lao) <span className="text-red-500">*</span>
           </Label>
           <Input
             type="text"
-            id="title"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            // onBlur={() => setTouched({ ...touched, inputValue: true })}
+            id="title-la"
+            value={titleLa}
+            onChange={(e) => setTitleLa(e.target.value)}
             className={
-              isInvalid.inputValue
+              isInvalid.titleLa
                 ? "!border-red-500 focus:!border-red-500 focus:!ring-1 focus:!ring-red-500"
                 : ""
             }
           />
-          {isInvalid.inputValue && (
+          {isInvalid.titleLa && (
             <p className="mt-2 text-sm text-red-600 dark:text-red-400">
-              Title is required
+              Lao title is required
             </p>
           )}
         </div>
 
-        {/* Select Dropdown */}
+        <div>
+          <Label htmlFor="title-en">Title (English)</Label>
+          <Input
+            type="text"
+            id="title-en"
+            value={titleEn}
+            onChange={(e) => setTitleEn(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="title-ko">Title (Korean)</Label>
+          <Input
+            type="text"
+            id="title-ko"
+            value={titleKo}
+            onChange={(e) => setTitleKo(e.target.value)}
+          />
+        </div>
+
         <div>
           <Label>
             Select type <span className="text-red-500">*</span>
           </Label>
           <Select
+            key={selectedOption || "empty"}
             options={selectOptions}
-            placeholder={selectedOption || "Select an option"}
-            // value={selectedOption}
+            placeholder="Select an option"
+            defaultValue={selectedOption}
             onChange={(value: string) => {
               setSelectedOption(value);
-              setTouched({ ...touched, selectedOption: true });
+              setTouched((prev) => ({ ...prev, selectedOption: true }));
             }}
             className={isInvalid.selectedOption ? "!border-red-500" : ""}
           />
@@ -352,41 +432,58 @@ export default function EditPost() {
           )}
         </div>
 
-        {/* TextArea */}
         <div>
           <Label>
-            Description <span className="text-red-500">*</span>
+            Description (Lao) <span className="text-red-500">*</span>
           </Label>
           <p className="text-sm text-gray-400 mb-2">
             Write subtitle with h2 --title--- h2
           </p>
           <TextArea
-            value={message}
-            onChange={setMessage}
-            // onBlur={() => setTouched({ ...touched, message: true })}
+            value={contentLa}
+            onChange={setContentLa}
             rows={6}
             hint="Please enter a valid message."
             className={
-              isInvalid.message
+              isInvalid.contentLa
                 ? "!border-red-500 focus:!border-red-500 focus:!ring-1 focus:!ring-red-500"
                 : ""
             }
           />
-          {isInvalid.message && (
+          {isInvalid.contentLa && (
             <p className="mt-2 text-sm text-red-600 dark:text-red-400">
-              Description is required
+              Lao description is required
             </p>
           )}
         </div>
 
-        {/* Submit Buttons */}
+        <div>
+          <Label>Description (English)</Label>
+          <TextArea
+            value={contentEn}
+            onChange={setContentEn}
+            rows={6}
+            hint="Optional: English translation."
+          />
+        </div>
+
+        <div>
+          <Label>Description (Korean)</Label>
+          <TextArea
+            value={contentKo}
+            onChange={setContentKo}
+            rows={6}
+            hint="Optional: Korean translation."
+          />
+        </div>
+
         <div className="flex gap-3">
           <Button disabled={isLoading}>
             {isLoading ? "Updating..." : "Update Post"}
           </Button>
           <button
             type="button"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/admin")}
             className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200"
           >
             Cancel
