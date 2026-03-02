@@ -9,7 +9,6 @@ import { useSearchParams } from "react-router-dom";
 import useDeviceType from "../hook/useDeviceType";
 import { Trans, useTranslation } from "react-i18next";
 import AIResearchTabs from "./AIEducationTabs";
-import { isMobile } from "react-device-detect";
 
 const ProgramPage = () => {
 
@@ -29,6 +28,7 @@ const ProgramPage = () => {
   }[i18n.language];
 
   const deviceType = useDeviceType();
+  const isMobileDevice = deviceType === "mobile";
   const getContentWidth = () => {
     if (deviceType === 'desktop') return 'desktopWidth';
     if (deviceType === 'tablet') return 'templetWidth';
@@ -41,6 +41,7 @@ const ProgramPage = () => {
   }, [initialSlide]);
   const handleSlideChange = (swiper) => {
     setActiveIndex(swiper.activeIndex);
+    swiper.updateAutoHeight(300);
     // Update URL without page reload
     const newSearchParams = new URLSearchParams(searchParam);
     newSearchParams.set('slide', swiper.activeIndex);
@@ -68,6 +69,14 @@ const ProgramPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!swiperRef.current) return;
+    const timer = setTimeout(() => {
+      swiperRef.current?.updateAutoHeight(300);
+    }, 80);
+    return () => clearTimeout(timer);
+  }, [activeIndex]);
+
   return (
     <div className={`bg-white ${fontClass}`}>
       <div className={` mx-auto px-4 py-6 ${getContentWidth()} `}>
@@ -78,11 +87,16 @@ const ProgramPage = () => {
               swiperRef.current = swiper;
               // Initialize to correct slide
               swiper.slideTo(initialSlide);
+              swiper.updateAutoHeight(0);
             }}
             onSlideChange={handleSlideChange}  // Updated handler
             initialSlide={initialSlide}  // Set initial slide
             spaceBetween={30}
             slidesPerView={1}
+            autoHeight={true}
+            observer={true}
+            observeParents={true}
+            observeSlideChildren={true}
             modules={[Navigation, Keyboard]}
             keyboard={{
               enabled: true,
@@ -95,14 +109,14 @@ const ProgramPage = () => {
             <SwiperSlide>
 
               <div className="flex justify-center ">
-                <div className={`${isMobile ? "flex-col" : "flex"} justify-between  items-start gap-28 `}>
-                  <div className="w-1/4  flex items-center gap-4">
-                    <img src="/icon/Solid/PNG/webcam_.png" alt="" className="w-[100px] h-auto object-cover rounded-xl" />
+                <div className={`${isMobileDevice ? "flex-col gap-4" : "flex gap-28"} justify-between items-start w-full`}>
+                  <div className={`${isMobileDevice ? "w-full" : "w-1/4"} flex items-center gap-4`}>
+                    <img src="/icon/Solid/PNG/webcam_.png" alt="" className={`${isMobileDevice ? "w-16" : "w-[100px]"} h-auto object-cover rounded-xl`} />
 
-                    <h1 className={` ${isMobile ? "text-2xl" : "text-4xl"} font-bold mb-12 text-[#105691] `}>{t("home.programMenuItems1")}</h1>
+                    <h1 className={` ${isMobileDevice ? "text-2xl mb-2" : "text-4xl mb-12"} font-bold text-[#105691] `}>{t("home.programMenuItems1")}</h1>
                   </div>
 
-                  <img src="../webimage/programe_slide1.png" alt="" className="  w-[80%]" />
+                  <img src="../webimage/programe_slide1.png" alt="" className={`${isMobileDevice ? "w-full" : "w-[80%]"} max-w-full`} />
 
 
                 </div>
@@ -115,155 +129,170 @@ const ProgramPage = () => {
 
               {/* slide 2 */}
               <div className="flex justify-center">
-                <div className={`${isMobile ? "flex-col" : "flex"}   gap-12 items-start `}>
-                  <div className={`${isMobile ? " mb-4" : "w-1/4"}   flex  items-center `}>
-                    <img src="/icon/Solid/PNG/hdmi_.png" alt="" className="w-[100px] h-auto object-cover rounded-xl" />
+                <div className={`${isMobileDevice ? "flex-col" : "flex"} gap-12 items-start w-full`}>
+                  <div className={`${isMobileDevice ? "mb-4 w-full" : "w-1/4"} flex items-center`}>
+                    <img src="/icon/Solid/PNG/hdmi_.png" alt="" className={`${isMobileDevice ? "w-16" : "w-[100px]"} h-auto object-cover rounded-xl`} />
 
-                    <h1 className={` ${isMobile ? "text-2xl" : "text-4xl"} font-bold mb-12 text-[#105691] `}>{t("home.programMenuItems2")}</h1>
+                    <h1 className={` ${isMobileDevice ? "text-2xl mb-2" : "text-4xl mb-12"} font-bold text-[#105691] `}>{t("home.programMenuItems2")}</h1>
                   </div>
 
                   {activeIndex === 1 && (
-
-                    <div className="relative flex flex-col ">
-
-                      <AnimatedContent
-                        distance={50}
-                        direction="up"
-                        duration={1.2}
-
-                        initialOpacity={0.2}
-
-                        scale={1.1}
-                        threshold={0.2}
-                        delay={0.1}
-                      >
-
-                        <div className="relative group inline-block w-full px-4 mb-4">
-
-
-                          {/* Image */}
-                          <img
-                            src="/webimage/402/1st_S.png"
-                            alt="professor"
-                            className={`${isMobile ? "w-[250px] h-[200px]" : "w-[500px] h-auto"}  object-fill relative z-0 ml-1`}
-                          />
-
-                          <div className="absolute inset-0 flex items-center justify-start px-4  -mt-8 z-1 w-1/2 translate-y-1/2 h-38  ml-12">
-                            <ul className="list-disc text-gray-500">
-                              <li>{t("programs.slide2.1.li_1")}</li>
-                              <li> {t("programs.slide2.1.li_2")}</li>
-                              <li> {t("programs.slide2.1.li_3")}</li>
-                              <li> {t("programs.slide2.1.li_4")}</li>
-                            </ul>
-                          </div>
+                    isMobileDevice ? (
+                      <div className="w-full space-y-6">
+                        <div className="rounded-lg overflow-hidden bg-white shadow-sm">
+                          <img src="/webimage/402/1st_S.png" alt="program step 1" className="w-full h-auto object-cover" />
+                          <ul className="list-disc text-gray-600 px-6 py-4 space-y-1">
+                            <li>{t("programs.slide2.1.li_1")}</li>
+                            <li>{t("programs.slide2.1.li_2")}</li>
+                            <li>{t("programs.slide2.1.li_3")}</li>
+                            <li>{t("programs.slide2.1.li_4")}</li>
+                          </ul>
                         </div>
-                      </AnimatedContent>
 
-
-                      <AnimatedContent
-                        distance={60}
-
-                        direction="up"
-                        duration={1.2}
-
-                        initialOpacity={0.2}
-
-                        scale={1.1}
-                        threshold={0.2}
-                        delay={0.2}
-                      >
-
-                        <div className="relative group inline-block w-full  mb-4" >
-
-                          <img
-                            src="/webimage/402/2,3_S.png"
-
-                            alt="professor"
-                            className="w-[500px] h-auto object-cover relative z-0 -mt-16 ml-54 "
-                          />
-
-                          <div className="absolute inset-0 flex items-center justify-start px-4 -mt-4   z-1 w-1/2 translate-x-full h-38  ">
-                            <ul className="list-disc text-gray-200 ml-4">
-                              <li>{t("programs.slide2.2.li_1")}</li>
-                              <li>{t("programs.slide2.2.li_2")}</li>
-                              <li> {t("programs.slide2.2.li_3")}</li>
-                              <li>{t("programs.slide2.2.li_4")}</li>
-                            </ul>
-                          </div>
-
+                        <div className="rounded-lg overflow-hidden bg-white shadow-sm">
+                          <img src="/webimage/402/2,3_S.png" alt="program step 2" className="w-full h-auto object-cover" />
+                          <ul className="list-disc text-gray-600 px-6 py-4 space-y-1">
+                            <li>{t("programs.slide2.2.li_1")}</li>
+                            <li>{t("programs.slide2.2.li_2")}</li>
+                            <li>{t("programs.slide2.2.li_3")}</li>
+                            <li>{t("programs.slide2.2.li_4")}</li>
+                          </ul>
                         </div>
-                      </AnimatedContent>
 
-                      <AnimatedContent
-                        distance={70}
-
-                        direction="up"
-                        duration={1.2}
-
-                        initialOpacity={0.2}
-
-                        scale={1.1}
-                        threshold={0.2}
-                        delay={0.3}
-                      >
-
-                        <div className="relative group inline-block w-full  mb-4" >
-
-                          <img
-                            src="/webimage/402/4th_S.png"
-
-                            alt="professor"
-                            className="w-[500px] h-auto object-cover relative z-0 -mt-16"
-                          />
-
-                          <div className="absolute inset-0 flex items-center justify-start px-4  -mt-8 z-1 w-1/2  h-38  ml-12">
-                            <ul className="list-disc text-gray-100">
-                              <li>{t("programs.slide2.3.li_1")}</li>
-                              <li> {t("programs.slide2.3.li_2")}</li>
-                              <li>{t("programs.slide2.3.li_3")}</li>
-                            </ul>
-                          </div>
+                        <div className="rounded-lg overflow-hidden bg-white shadow-sm">
+                          <img src="/webimage/402/4th_S.png" alt="program step 3" className="w-full h-auto object-cover" />
+                          <ul className="list-disc text-gray-600 px-6 py-4 space-y-1">
+                            <li>{t("programs.slide2.3.li_1")}</li>
+                            <li>{t("programs.slide2.3.li_2")}</li>
+                            <li>{t("programs.slide2.3.li_3")}</li>
+                          </ul>
                         </div>
-                      </AnimatedContent>
-                      <AnimatedContent
-                        distance={80}
 
-                        direction="up"
-                        duration={1.2}
-
-                        initialOpacity={0.2}
-
-                        scale={1.1}
-                        threshold={0.2}
-                        delay={0.4}
-                      >
-
-                        <div className="relative group inline-block w-full  mb-4" >
-
-                          <img
-                            src="/webimage/402/after_S.png"
-                            alt="professor"
-                            className="w-[500px] h-auto object-cover relative z-0 -mt-16 ml-54"
-                          />
-                          <img
-                            src="/webimage/402/hand.png"
-
-                            alt="professor"
-                            className="w-[150px] absolute h-auto object-cover ml-22 -mt-10  -z-1 -translate-y-full"
-                          />
-
-                          <div className="absolute inset-0 flex items-center justify-start px-4 -mt-4  z-1 w-1/2 translate-x-full h-38  ">
-                            <ul className="list-disc text-gray-200 ml-4">
-                              <li>{t("programs.slide2.4.li_1")}</li>
-                              <li>{t("programs.slide2.4.li_2")}</li>
-                              <li>{t("programs.slide2.4.li_3")}</li>
-                              <li>{t("programs.slide2.4.li_4")}</li>
-                            </ul>
-                          </div>
+                        <div className="rounded-lg overflow-hidden bg-white shadow-sm">
+                          <img src="/webimage/402/after_S.png" alt="program step 4" className="w-full h-auto object-cover" />
+                          <ul className="list-disc text-gray-600 px-6 py-4 space-y-1">
+                            <li>{t("programs.slide2.4.li_1")}</li>
+                            <li>{t("programs.slide2.4.li_2")}</li>
+                            <li>{t("programs.slide2.4.li_3")}</li>
+                            <li>{t("programs.slide2.4.li_4")}</li>
+                          </ul>
                         </div>
-                      </AnimatedContent>
+                      </div>
+                    ) : (
+                      <div className="relative flex flex-col ">
+                        <AnimatedContent
+                          distance={50}
+                          direction="up"
+                          duration={1.2}
+                          initialOpacity={0.2}
+                          scale={1.1}
+                          threshold={0.2}
+                          delay={0.1}
+                        >
+                          <div className="relative group inline-block w-full px-4 mb-4">
+                            <img
+                              src="/webimage/402/1st_S.png"
+                              alt="professor"
+                              className="w-[500px] h-auto object-fill relative z-0 ml-1"
+                            />
 
-                    </div>
+                            <div className="absolute inset-0 flex items-center justify-start px-4 -mt-8 z-1 w-1/2 translate-y-1/2 h-38 ml-12">
+                              <ul className="list-disc text-gray-500">
+                                <li>{t("programs.slide2.1.li_1")}</li>
+                                <li>{t("programs.slide2.1.li_2")}</li>
+                                <li>{t("programs.slide2.1.li_3")}</li>
+                                <li>{t("programs.slide2.1.li_4")}</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </AnimatedContent>
+
+                        <AnimatedContent
+                          distance={60}
+                          direction="up"
+                          duration={1.2}
+                          initialOpacity={0.2}
+                          scale={1.1}
+                          threshold={0.2}
+                          delay={0.2}
+                        >
+                          <div className="relative group inline-block w-full mb-4">
+                            <img
+                              src="/webimage/402/2,3_S.png"
+                              alt="professor"
+                              className="w-[500px] h-auto object-cover relative z-0 -mt-16 ml-54 "
+                            />
+
+                            <div className="absolute inset-0 flex items-center justify-start px-4 -mt-4 z-1 w-1/2 translate-x-full h-38">
+                              <ul className="list-disc text-gray-200 ml-4">
+                                <li>{t("programs.slide2.2.li_1")}</li>
+                                <li>{t("programs.slide2.2.li_2")}</li>
+                                <li>{t("programs.slide2.2.li_3")}</li>
+                                <li>{t("programs.slide2.2.li_4")}</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </AnimatedContent>
+
+                        <AnimatedContent
+                          distance={70}
+                          direction="up"
+                          duration={1.2}
+                          initialOpacity={0.2}
+                          scale={1.1}
+                          threshold={0.2}
+                          delay={0.3}
+                        >
+                          <div className="relative group inline-block w-full mb-4">
+                            <img
+                              src="/webimage/402/4th_S.png"
+                              alt="professor"
+                              className="w-[500px] h-auto object-cover relative z-0 -mt-16"
+                            />
+
+                            <div className="absolute inset-0 flex items-center justify-start px-4 -mt-8 z-1 w-1/2 h-38 ml-12">
+                              <ul className="list-disc text-gray-100">
+                                <li>{t("programs.slide2.3.li_1")}</li>
+                                <li>{t("programs.slide2.3.li_2")}</li>
+                                <li>{t("programs.slide2.3.li_3")}</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </AnimatedContent>
+
+                        <AnimatedContent
+                          distance={80}
+                          direction="up"
+                          duration={1.2}
+                          initialOpacity={0.2}
+                          scale={1.1}
+                          threshold={0.2}
+                          delay={0.4}
+                        >
+                          <div className="relative group inline-block w-full mb-4">
+                            <img
+                              src="/webimage/402/after_S.png"
+                              alt="professor"
+                              className="w-[500px] h-auto object-cover relative z-0 -mt-16 ml-54"
+                            />
+                            <img
+                              src="/webimage/402/hand.png"
+                              alt="professor"
+                              className="w-[150px] absolute h-auto object-cover ml-22 -mt-10 -z-1 -translate-y-full"
+                            />
+
+                            <div className="absolute inset-0 flex items-center justify-start px-4 -mt-4 z-1 w-1/2 translate-x-full h-38">
+                              <ul className="list-disc text-gray-200 ml-4">
+                                <li>{t("programs.slide2.4.li_1")}</li>
+                                <li>{t("programs.slide2.4.li_2")}</li>
+                                <li>{t("programs.slide2.4.li_3")}</li>
+                                <li>{t("programs.slide2.4.li_4")}</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </AnimatedContent>
+                      </div>
+                    )
                   )}
 
                 </div>
@@ -275,11 +304,11 @@ const ProgramPage = () => {
             <SwiperSlide>
               {/* slide 3 */}
               <div className="flex justify-center ">
-                <div className={`${isMobile ? "flex-col" : "flex"} justify-between items-start gap-28 `}>
-                  <div className="w-1/4  flex items-center gap-4">
-                    <img src="/icon/Solid/PNG/gaming fan_.png" alt="" className="w-[100px] h-auto object-cover rounded-xl" />
+                <div className={`${isMobileDevice ? "flex-col gap-4" : "flex gap-28"} justify-between items-start w-full`}>
+                  <div className={`${isMobileDevice ? "w-full" : "w-1/4"} flex items-center gap-4`}>
+                    <img src="/icon/Solid/PNG/gaming fan_.png" alt="" className={`${isMobileDevice ? "w-16" : "w-[100px]"} h-auto object-cover rounded-xl`} />
 
-                    <h1 className={` ${isMobile ? "text-2xl" : "text-4xl"} font-bold mb-12 text-[#105691] `}>
+                    <h1 className={` ${isMobileDevice ? "text-2xl mb-2" : "text-4xl mb-12"} font-bold text-[#105691] `}>
                       <Trans i18nKey="home.programMenuItems3" components={{ br: <br /> }} />
                     </h1>
                   </div>
@@ -289,7 +318,7 @@ const ProgramPage = () => {
                       <img
                         src="../webimage/programe_slide3.png"
                         alt="research"
-                        className="w-[90%] h-auto object-cover relative z-0"
+                        className={`${isMobileDevice ? "w-full" : "w-[90%]"} h-auto object-cover relative z-0`}
                       />
 
 
@@ -308,7 +337,7 @@ const ProgramPage = () => {
             <SwiperSlide>
 
               {/* slide 4 */}
-              <div className={` ${isMobile ? " " : "px-12 "}flex flex-col gap-16 `} >
+              <div className={` ${isMobileDevice ? "items-center" : "px-12"} flex flex-col gap-16 `} >
                 <AIResearchTabs />
 
               </div>
@@ -319,7 +348,7 @@ const ProgramPage = () => {
           </Swiper>
 
           {/* Navigation Buttons */}
-          {activeIndex > 0 && (
+          {!isMobileDevice && activeIndex > 0 && (
             <button
               onClick={() => swiperRef.current?.slidePrev()}
               className="cursor-pointer absolute left-0 top-1/2 transform -translate-y-1/2 z-10 p-2 bg-white border rounded-full shadow transition-colors duration-300 hover:border-blue-500 hover:text-blue-500 active:scale-95 active:ring active:ring-blue-300"
@@ -329,7 +358,7 @@ const ProgramPage = () => {
             </button>
           )}
 
-          {activeIndex < 3 && (
+          {!isMobileDevice && activeIndex < 3 && (
             <button
               onClick={() => swiperRef.current?.slideNext()}
               className="cursor-pointer absolute right-0 top-1/2 transform -translate-y-1/2 z-10 p-2 bg-white border rounded-full shadow transition-colors duration-300 hover:border-blue-500 hover:text-blue-500 active:scale-95 active:ring active:ring-blue-300"

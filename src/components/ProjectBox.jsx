@@ -52,7 +52,7 @@ const ProjectBox = ({ title, color, link, subtitle, menuItems }) => {
 
               </h2>
             </div>
-            <ul className="text-white space-y-2 pl-12">
+            {/* <ul className="text-white space-y-2 pl-12">
               {menuItems?.map((item, index) => (
                 <li key={index}>
                   <Link to={item.link} className="hover:underline">
@@ -60,7 +60,64 @@ const ProjectBox = ({ title, color, link, subtitle, menuItems }) => {
                   </Link>
                 </li>
               ))}
-            </ul>
+            </ul> */}
+
+            <div className="flex flex-wrap relative">
+                  <div className="overflow-hidden rounded-lg m-2 -mb-4 group">
+                    <img
+                      src={im5}
+                      alt="Background Image"
+                      width={80}
+                      height={80}
+                      className="object-cover transform transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+
+                  <div className="overflow-hidden rounded-lg -mt-2 group">
+                    <img
+                      src={im4}
+                      alt="Background Image"
+                      width={100}
+                      height={100}
+                      className="object-cover transform transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+
+                  <div className="overflow-hidden rounded-lg h-[60px] w-[70px] mr-2 ml-3 group">
+                    <img
+                      src={im6}
+                      alt="Background Image"
+                      className="h-full w-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+
+                  <div className="overflow-hidden rounded-lg mt-12 h-[60px] w-[70px] group">
+                    <img
+                      src={im7}
+                      alt="Background Image"
+                      className="h-full w-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+
+                  <div className="overflow-hidden rounded-lg mt-6 ml-4 group">
+                    <img
+                      src={im8}
+                      alt="Background Image"
+                      width={100}
+                      height={100}
+                      className="object-cover transform transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="overflow-hidden rounded-lg mt-6 ml-4 group">
+                    <img
+                      src={im9}
+                      alt="Background Image"
+               
+                      className="object-cover h-12 w-12 transform transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+       
+                </div>
           </>
 
         ) : (

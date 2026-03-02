@@ -130,12 +130,47 @@ const AIResearchTabs = () => {
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
+  const deviceType = useDeviceType();
+  const isMobileDevice = deviceType === "mobile";
 
   // Icons for navigation
   const navIcons = [
-    { id: TABS.EDUCATION, icon: <img src='/webimage/cores1.png' className={` ${activeTab === TABS.EDUCATION ? 'w-32 h-32' : 'w-10 h-10'} `} /> },
-    { id: TABS.RESEARCH, icon: <img src='/webimage/cores2.png' className={` ${activeTab === TABS.RESEARCH ? 'w-32 h-32' : 'w-10 h-10'} `} /> },
-    { id: TABS.CREATIVE, icon: <img src='/webimage/cores3.png' className={` ${activeTab === TABS.CREATIVE ? 'w-32 h-32' : 'w-10 h-10'} `} /> }
+    {
+      id: TABS.EDUCATION,
+      icon: (
+        <img
+          src='/webimage/cores1.png'
+          className={`${activeTab === TABS.EDUCATION
+            ? isMobileDevice ? "w-16 h-16" : "w-32 h-32"
+            : isMobileDevice ? "w-8 h-8" : "w-10 h-10"
+            }`}
+        />
+      )
+    },
+    {
+      id: TABS.RESEARCH,
+      icon: (
+        <img
+          src='/webimage/cores2.png'
+          className={`${activeTab === TABS.RESEARCH
+            ? isMobileDevice ? "w-16 h-16" : "w-32 h-32"
+            : isMobileDevice ? "w-8 h-8" : "w-10 h-10"
+            }`}
+        />
+      )
+    },
+    {
+      id: TABS.CREATIVE,
+      icon: (
+        <img
+          src='/webimage/cores3.png'
+          className={`${activeTab === TABS.CREATIVE
+            ? isMobileDevice ? "w-16 h-16" : "w-32 h-32"
+            : isMobileDevice ? "w-8 h-8" : "w-10 h-10"
+            }`}
+        />
+      )
+    }
   ];
 
   // Fetch content when tab changes (simulating database fetch)
@@ -150,8 +185,6 @@ const AIResearchTabs = () => {
     loadContent();
   }, [activeTab]);
 
-
-  const deviceType = useDeviceType();
   const getContentWidth = () => {
     if (deviceType === 'desktop') return 'desktopWidth';
     if (deviceType === 'tablet') return 'templetWidth';
@@ -159,18 +192,20 @@ const AIResearchTabs = () => {
   };
 
   return (
-    <div className={`${getContentWidth()} mx-auto rounded-lg  mt-[1rem] mb-[4rem] px-6 `}>
+    <div className={`${getContentWidth()} mx-auto rounded-lg mt-[1rem] mb-[4rem] ${isMobileDevice ? "px-2" : "px-6"}`}>
       {/* Main content area with sidebar */}
-      <h1 className="text-5xl font-bold mb-8 text-[#105691]">{t("home.aboutMenuItems3")}</h1>
+      <h1 className={`${isMobileDevice ? "text-2xl" : "text-5xl"} font-bold mb-8 text-[#105691]`}>
+        {t("home.aboutMenuItems3")}
+      </h1>
 
-      <div className="flex flex-col md:flex-row ">
+      <div className={`flex flex-col md:flex-row ${isMobileDevice ? "items-center" : ""}`}>
         {/* Sidebar navigation */}
-        <div className={` p-4 flex md:flex-col justify-center md:justify-start items-center space-y-0 md:space-y-6 space-x-4 md:space-x-0 border-b `}>
+        <div className={`p-4 flex md:flex-col justify-center md:justify-start items-center space-y-0 md:space-y-6 space-x-3 md:space-x-0 border-b ${isMobileDevice ? "w-full" : ""}`}>
           {navIcons.map((item) => (
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`p-3 rounded-lg transition-all duration-300 ${activeTab === item.id
+              className={`${isMobileDevice ? "p-2" : "p-3"} rounded-lg transition-all duration-300 ${activeTab === item.id
                 ? 'bg-blue-100 '
                 : 'border border-gray-300 hover:bg-gray-100'
                 }`}
@@ -182,16 +217,16 @@ const AIResearchTabs = () => {
         </div>
 
         {/* Content area */}
-        <div className="flex-1 ">
+        <div className={`flex-1 ${isMobileDevice ? "w-full" : ""}`}>
           {loading ? (
-            <div className="flex items-center justify-center h-full">
+            <div className="flex items-center justify-center min-h-[220px]">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
             </div>
           ) : content ? (
-            <div className={` space-y-6 px-4`}>
+            <div className={`space-y-6 ${isMobileDevice ? "px-2" : "px-4"}`}>
 
 
-              <div className="space-y-6 bg-blue-50 rounded-lg p-4 w-[900px]">
+              <div className={`space-y-6 bg-blue-50 rounded-lg p-4 w-full max-w-[900px] ${isMobileDevice ? "mx-auto" : ""}`}>
                 {content.content.map((section, idx) => (
                   <div key={idx} className="space-y-4">
                     <p className="text-gray-800  mb-12">{section.heading}</p>
