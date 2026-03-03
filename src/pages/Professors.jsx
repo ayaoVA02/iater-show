@@ -347,6 +347,30 @@ function Professors() {
                         <div className={`relative group inline-block w-full   ${isMobile ? "pt-6" : "pt-32 mb-24"}`} id='seangta'>
 
                             <img
+                                src="/professors/big/kim_chang.png"
+                                alt="professor"
+                                className="w-full h-auto object-cover relative z-10"
+                            />
+
+                            {/* Arrow wrapper — make it respond to hover too */}
+                            <div className="absolute inset-0 flex items-center justify-start px-4 z-1 pointer-events-none group-hover:pointer-events-auto translate-y-12">
+                                <div
+                                    className="opacity-0 translate-x-0 group-hover:opacity-100 group-hover:-translate-x-24  transition-all duration-500 ease-in-out"
+                                >
+                                    <div className="pointer-events-auto">
+                                        <button onClick={() => navigate("/home")}>
+
+                                            <img src="/icon/Solid/PNG/arrow_.png" alt="arrow back" className='w-24 h-24 object-cover' />
+
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className={`relative group inline-block w-full   ${isMobile ? "pt-6" : "pt-32 mb-24"}`} id='seangta'>
+
+                            <img
                                 src="/professors/big/MS. Seangta PHILAVONG.png"
                                 alt="professor"
                                 className="w-full h-auto object-cover relative z-10"
