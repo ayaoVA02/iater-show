@@ -87,7 +87,7 @@ const HistoryPage = () => {
           }
           {i18n.language === 'ko' &&
 
-            <img src="../webimage/history_kr.png" alt="iater history" className="" />
+            <img src="../webimage/history_kr.jpg" alt="iater history" className="" />
           }
         </div>
 
