@@ -48,7 +48,7 @@ const HistoryPage = () => {
   //   },
   // ]
 
-    const deviceType = useDeviceType();
+  const deviceType = useDeviceType();
   const getContentWidth = () => {
     if (deviceType === 'desktop') return 'desktopWidth';
     if (deviceType === 'tablet') return 'templetWidth';
@@ -60,7 +60,7 @@ const HistoryPage = () => {
       <div className={`${getContentWidth()} ${deviceType === 'mobile' ? 'w-full' : ''} widthfixed mx-auto px-4 py-6`}>
         {/* <h1 className="text-center text-xl mb-8">{t("about.history")}</h1> */}
         <br />
-        <div className="space-y-12 mb-12">
+        <div className="flex justify-center">
           {/* {historyItems.map((item, index) => (
             <div key={index} className="flex">
               <div className="w-1/4 pr-6">
@@ -77,7 +77,18 @@ const HistoryPage = () => {
             </div>
           ))} */}
 
-          <img src="../webimage/history.png" alt="iater history" className="" />
+          {i18n.language === 'en' &&
+
+            <img src="../webimage/history_en.png" alt="iater history" className="" />
+          }
+          {i18n.language === 'la' &&
+
+            <img src="../webimage/history_lao.png" alt="iater history" className="" />
+          }
+          {i18n.language === 'ko' &&
+
+            <img src="../webimage/history_kr.png" alt="iater history" className="" />
+          }
         </div>
 
 

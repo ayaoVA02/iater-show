@@ -67,7 +67,7 @@ const AboutPage = () => {
 
           <div className="bg-blue-50 rounded-2xl p-8 mb-12 " >
 
-            <h1 className={` ${isMobile ? "text-2xl": "text-4xl"} mb-6 text-[#105691] bold ${fontClass} `} > <b>{t("home.aboutMenuItems1")}</b> </h1>
+            <h1 className={` ${isMobile ? "text-2xl" : "text-4xl"} mb-6 text-[#105691] bold ${fontClass} `} > <b>{t("home.aboutMenuItems1")}</b> </h1>
             <p className="mb-4 text-justify leading-relaxed"> <Trans components={{ strong: <strong className="font-bold" /> }}>{t("about.vision.1_p1")}</Trans></p>
             <p className="mb-4 text-justify leading-relaxed">
               <Trans components={{ strong: <strong className="font-bold" /> }}>{t("about.vision.1_p2")}</Trans>
@@ -89,13 +89,13 @@ const AboutPage = () => {
           <div className={`rounded-lg overflow-hidden ${isMobile ? "w-full" : "w-[400px]"}`}>
             <ImageZoom className="w-full h-[200px] object-cover" src="/webimage/showing00.jpeg" alt="iater image showing" />
           </div>
-                  <div className={`rounded-lg overflow-hidden ${isMobile ? "w-full" : "w-[400px]"}`}>
+          <div className={`rounded-lg overflow-hidden ${isMobile ? "w-full" : "w-[400px]"}`}>
 
             <ImageZoom className="w-full h-[200px] object-cover" src="/webimage/showing02.jpeg" alt="iater image showing" />
           </div>
-                    <div className={`rounded-lg overflow-hidden ${isMobile ? "w-full" : "w-[400px]"}`}>
+          <div className={`rounded-lg overflow-hidden ${isMobile ? "w-full" : "w-[400px]"}`}>
 
-            <ImageZoom src="/webimage/showing03.jpeg" alt="iater image showing" className="w-full object-cover  h-[200px]"  />
+            <ImageZoom src="/webimage/showing03.jpeg" alt="iater image showing" className="w-full object-cover  h-[200px]" />
           </div>
         </div>
 
@@ -106,7 +106,7 @@ const AboutPage = () => {
           <div className="px-4 flex flex-col gap-16 " >
 
             <div className="mt-14" >
-              <h1 className={` ${isMobile ? "text-2xl": "text-4xl"} font-bold mb-12 text-[#105691] `}>{t("home.aboutMenuItems2")}</h1>
+              <h1 className={` ${isMobile ? "text-2xl" : "text-4xl"} font-bold mb-12 text-[#105691] `}>{t("home.aboutMenuItems2")}</h1>
               {/* <p className="mb-4"> <Trans components={{ strong: <strong className="font-bold" /> }}>{t("about.2_p1")}</Trans>
             </p>
             <p className="mb-4">
@@ -122,12 +122,23 @@ const AboutPage = () => {
           <div className="pt-24" id="mission-statement">
 
             <div className=" mx-auto ">
-              <h1 className={` ${isMobile ? "text-2xl": "text-4xl"} font-bold mb-4 text-[#105691]`}>{t("home.aboutMenuItems3")}</h1>
+              <h1 className={` ${isMobile ? "text-2xl" : "text-4xl"} font-bold mb-4 text-[#105691]`}>{t("home.aboutMenuItems3")}</h1>
               <div className="flex justify-center mt-6 gap-4">
                 <div className="text-center">
                   <Link to={'/aieducation'} >
                     <div className={` ${isMobile ? "w-[100px]" : "w-[300px]"} h-auto mx-auto  mb-2`}>
-                      <img src="/webimage/cores1.png" className="hover:scale-110 transition-all duration-300" alt="" />
+                      {i18n.language === 'en' &&
+
+                        <img src="/webimage/cores1_en.png" className="hover:scale-110 transition-all duration-300" alt="" />
+                      }
+                      {i18n.language === 'la' &&
+
+                        <img src="/webimage/cores1_lao.png" className="hover:scale-110 transition-all duration-300" alt="" />
+                      }
+                      {i18n.language === 'ko' &&
+
+                        <img src="/webimage/cores1.png" className="hover:scale-110 transition-all duration-300" alt="" />
+                      }
                     </div>
                   </Link>
                 </div>
@@ -136,9 +147,18 @@ const AboutPage = () => {
 
                     <div className={` ${isMobile ? "w-[100px]" : "w-[300px]"} h-auto mx-auto  mb-2`}>
 
+                      {i18n.language === 'en' &&
 
-                      <img src="/webimage/cores2.png" className="hover:scale-110 transition-all duration-300" alt="" />
+                        <img src="/webimage/cores2_en.png" className="hover:scale-110 transition-all duration-300" alt="" />
+                      }
+                      {i18n.language === 'la' &&
 
+                        <img src="/webimage/cores2_lao.png" className="hover:scale-110 transition-all duration-300" alt="" />
+                      }
+                      {i18n.language === 'ko' &&
+
+                        <img src="/webimage/cores2.png" className="hover:scale-110 transition-all duration-300" alt="" />
+                      }
                     </div>
 
                   </Link>
@@ -147,10 +167,21 @@ const AboutPage = () => {
                   <Link to={'/aieducation'} >
 
                     <div className={` ${isMobile ? "w-[100px]" : "w-[300px]"} h-auto mx-auto  mb-2`}>
+                      {i18n.language === 'en' &&
 
 
-                      <img src="/webimage/cores3.png" className="hover:scale-110 transition-all duration-300" alt="" />
+                        <img src="/webimage/cores3_en.png" className="hover:scale-110 transition-all duration-300" alt="" />
+                      }
+                      {i18n.language === 'la' &&
 
+
+                        <img src="/webimage/cores3_lao.png" className="hover:scale-110 transition-all duration-300" alt="" />
+                      }
+                      {i18n.language === 'ko' &&
+
+
+                        <img src="/webimage/cores3.png" className="hover:scale-110 transition-all duration-300" alt="" />
+                      }
                     </div>
                     {/* <p className="text-xs hover:underline">{t("about.3_p3")}</p> */}
                   </Link>
@@ -180,7 +211,7 @@ const AboutPage = () => {
 
 
             <div className="relative">
-              <h1 className={` ${isMobile ? "text-2xl": "text-4xl"} font-bold mb-4 text-[#105691]`}>{t("home.aboutMenuItems4")}</h1>
+              <h1 className={` ${isMobile ? "text-2xl" : "text-4xl"} font-bold mb-4 text-[#105691]`}>{t("home.aboutMenuItems4")}</h1>
 
               <div className="flex flex-col gap-4 justify-center items-center">
 
@@ -194,7 +225,7 @@ const AboutPage = () => {
           <div className="pt-24" id="logo">
 
             <div>
-              <h1 className={` ${isMobile ? "text-2xl": "text-4xl"} font-bold mb-4 text-[#105691]`}>{t("home.aboutMenuItems7")}</h1>
+              <h1 className={` ${isMobile ? "text-2xl" : "text-4xl"} font-bold mb-4 text-[#105691]`}>{t("home.aboutMenuItems7")}</h1>
               <div className=" p-4 rounded-lg mb-8 text-center">
                 <div className={`${isMobile ? "flex-col" : "flex"} gap-10 items-center justify-center`}>
                   <div className={`${isMobile ? "w-[60%]" : "w-[40%]"}`}>

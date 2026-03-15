@@ -115,8 +115,21 @@ const ProgramPage = () => {
 
                     <h1 className={` ${isMobileDevice ? "text-2xl mb-2" : "text-4xl mb-12"} font-bold text-[#105691] `}>{t("home.programMenuItems1")}</h1>
                   </div>
+                  {i18n.language === 'en' &&
 
-                  <img src="../webimage/programe_slide1.png" alt="" className={`${isMobileDevice ? "w-full" : "w-[80%]"} max-w-full`} />
+
+                    <img src="../webimage/programe_slide1_en.png" alt="" className={`${isMobileDevice ? "w-full" : "w-[80%]"} max-w-full`} />
+                  }
+                  {i18n.language === 'la' &&
+
+
+                    <img src="../webimage/programe_slide1_lao.png" alt="" className={`${isMobileDevice ? "w-full" : "w-[80%]"} max-w-full`} />
+                  }
+                  {i18n.language === 'ko' &&
+
+
+                    <img src="../webimage/programe_slide1.png" alt="" className={`${isMobileDevice ? "w-full" : "w-[80%]"} max-w-full`} />
+                  }
 
 
                 </div>
@@ -315,11 +328,30 @@ const ProgramPage = () => {
                   <div className="relative flex flex-col w-full ">
                     <div className="relative group inline-block w-full mb-4" id='yu'>
                       {/* Image */}
+                       {i18n.language === 'ko' && 
+                       
                       <img
                         src="../webimage/programe_slide3.png"
                         alt="research"
                         className={`${isMobileDevice ? "w-full" : "w-[90%]"} h-auto object-cover relative z-0`}
                       />
+                       }
+                       {i18n.language === 'en' && 
+                       
+                      <img
+                        src="../webimage/programe_slide3_en.png"
+                        alt="research"
+                        className={`${isMobileDevice ? "w-full" : "w-[90%]"} h-auto object-cover relative z-0`}
+                      />
+                       }
+                       {i18n.language === 'la' && 
+                       
+                      <img
+                        src="../webimage/programe_slide3_lao.png"
+                        alt="research"
+                        className={`${isMobileDevice ? "w-full" : "w-[90%]"} h-auto object-cover relative z-0`}
+                      />
+                       }
 
 
                     </div>

@@ -215,6 +215,47 @@
   },
   "projectpage":{
     "read_more":"Read More"
+  },
+  "ai_research": {
+    "education": {
+      "title": "AI Talent Development",
+      "heading": "iATER operates the following systematic education programs to cultivate global talent in the AI and IT fields:",
+      "item1_title": "AI & Machine Learning Specialist Course",
+      "item1_desc": "Core AI technology education including Machine Learning, Deep Learning, NLP, and Computer Vision.",
+      "item2_title": "Software Development & Programming",
+      "item2_desc": "Training in Python, JavaScript, Cloud Computing, and Data Engineering.",
+      "item3_title": "AI × Convergence Education",
+      "item3_desc": "Cultivating talent with creative problem-solving skills by merging AI with various industries.",
+      "item4_title": "Industry-Linked Projects",
+      "item4_desc": "Practical research projects conducted in collaboration with corporate partners.",
+      "description": "To enable AI talent development even in resource-limited countries, we have built a hybrid education system combining online and offline learning, utilizing ChatGPT and AI-based tools."
+    },
+    "research": {
+      "title": "R&D and Core Technology Research",
+      "heading": "iATER focuses on exploring the latest technologies and creating practical innovations through AI and IT Research & Development (R&D).",
+      "item1_title": "AI & Machine Learning Research",
+      "item1_desc": "Optimization of AI algorithms, automated learning systems, and Reinforcement Learning (RL).",
+      "item2_title": "NLP & Generative AI Research",
+      "item2_desc": "Research on ChatGPT, AI translators, speech recognition, and AI-based content generation.",
+      "item3_title": "Data Science & Big Data",
+      "item3_desc": "Data analysis, predictive modeling, and Smart City technology research.",
+      "item4_title": "AI + Arts & Entertainment",
+      "item4_desc": "AI-based animation production, AI art generation, and real-time rendering technologies.",
+      "item5_title": "Robotics & Automation",
+      "item5_desc": "AI robot development, autonomous driving technology, and Factories of the Future.",
+      "description": "This research goes beyond theory, connecting to applied research for solving real industrial and social problems, supported for commercialization with Lao and global companies."
+    },
+    "creative": {
+      "title": "AI + Creative Industries",
+      "heading": "iATER highlights how AI technology can drive innovation in artistic and creative fields. We support young Lao artists in performing more creative work through AI animation and multimedia content development.",
+      "item1_title": "AI Animation & Character Design",
+      "item1_desc": "AI-based image generation, virtual character animation, and 3D modeling.",
+      "item2_title": "AI-based Music & Sound Design",
+      "item2_desc": "AI composition, voice synthesis, and immersive experience development (VR/AR).",
+      "item3_title": "AI Video Processing",
+      "item3_desc": "AI-based automated editing, real-time graphics, and deep learning-based video synthesis.",
+      "description": "We actively introduce AI-based real-time graphics and storytelling assistance systems, allowing creators to produce immersive works in a shorter amount of time."
+    }
   }
 
 
